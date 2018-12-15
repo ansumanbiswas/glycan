@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+__all__ = ['Node', 'TreeNode', 'attach_new_node']
+
 
 class Node:
     def __init__(self, id):
@@ -24,12 +26,12 @@ class TreeNode:
         self.__rightChild = None
 
     def add_left_child(self, nodeName):
-        assert self.__leftChild is None
-        self.__leftChild = TreeNode(nodeName)
+        if self.__leftChild is None:
+            self.__leftChild = TreeNode(nodeName)
 
     def add_right_child(self, nodeName):
-        assert self.__rightChild is None
-        self.__rightChild = TreeNode(nodeName)
+        if self.__rightChild is None:
+            self.__rightChild = TreeNode(nodeName)
 
     def get_left_child(self):
         return self.__leftChild
@@ -98,6 +100,8 @@ def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'
     return False
 
 
+
+'''
 if __name__ == "__main__" :
      rules = [ ("N1", "N2", "left"),
                ("N2", "N5", "left"),
@@ -119,4 +123,5 @@ if __name__ == "__main__" :
              freq[tree] = 0
          freq[tree] = freq[tree] + 1
      print( len(freq) )
+'''
 
