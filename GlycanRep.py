@@ -56,7 +56,7 @@ class TreeNode:
             repStr = repStr + '(%s)' % self.__rightChild
         return repStr
 
-    def search(self, nodeName):
+    def search(self, nodeName):       # if a specified node is present in the tree, return the nodes & its children
         res = []
         if self.__node == Node(nodeName):
             res.append(self)
@@ -67,8 +67,8 @@ class TreeNode:
         return res
 
 
-def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):
-    assert isinstance(root, TreeNode)
+def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):  # strategy of attaching child nodes to parent node
+    assert isinstance(root, TreeNode)      # this checks that the specified root & intermediate nodes are present in the tree
     assert strategy in ['random', 'greedy']
     assert attach_to in ['left', 'right', 'any']
     hits = root.search(basenode)
