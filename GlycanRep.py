@@ -1,10 +1,11 @@
+''' code for representing the glycan structure, given the input nodes (i.e. the individual sugars)'''
 import pandas as pd
 import numpy as np
 
-__all__ = ['Node', 'TreeNode', 'attach_new_node']
+__all__ = ['Node', 'TreeNode', 'attach_new_node']  # each treeNode can either have a node (i.e, child) or be null (having no child)
 
 
-class Node:
+class Node:      ## WHAT IS THIS CLASS DOING ?
     def __init__(self, id):
         self.__name = id
 
