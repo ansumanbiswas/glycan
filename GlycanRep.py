@@ -1,4 +1,5 @@
-''' code for representing the glycan structure, given the input nodes (i.e. the individual sugars)'''
+''' code for representing the glycan structure, given the input nodes (i.e. the individual sugars). 
+Each node can have at most 2 branches (left child & right child)'''
 import pandas as pd
 import numpy as np
 
@@ -21,32 +22,32 @@ class Node:      ## WHAT IS THIS CLASS DOING ?
 
 
 class TreeNode:
-    def __init__(self, rootName):
+    def __init__(self, rootName):        # defining the name of each node
         self.__node = Node(rootName)
         self.__leftChild = None
         self.__rightChild = None
 
-    def add_left_child(self, nodeName):
+    def add_left_child(self, nodeName):  # adding left child node
         if self.__leftChild is None:
             self.__leftChild = TreeNode(nodeName)
 
-    def add_right_child(self, nodeName):
+    def add_right_child(self, nodeName):  # adding right child node
         if self.__rightChild is None:
             self.__rightChild = TreeNode(nodeName)
 
-    def get_left_child(self):
+    def get_left_child(self):          # getting the identity of left child node
         return self.__leftChild
 
-    def get_right_child(self):
+    def get_right_child(self):         # getting the identity of right child node
         return self.__rightChild
 
-    def has_left_child(self):
+    def has_left_child(self):          # check if the selected node has left child node
         return self.__leftChild is not None
 
-    def has_right_child(self):
+    def has_right_child(self):         # check if the selected node has right child node
         return self.__rightChild is not None
 
-    def __str__(self):
+    def __str__(self):                # check if the selected node has left & right children; if yes, return the child nodes
         repStr = ''
         if self.__leftChild is not None:
             repStr = '(%s)' % self.__leftChild
