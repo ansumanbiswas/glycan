@@ -1,3 +1,7 @@
+'''
+
+'''
+
 import json
 import operator
 import numpy as np
@@ -5,6 +9,7 @@ import pandas as pd
 from GlycanRep import *
 
 def read_node_file(filename):
+    '''specifies list of nodes (parent + children) present in the tree'''
     x = pd.read_csv(filename, header=None)
     nodes = []
     for i in range(x.shape[0]):
