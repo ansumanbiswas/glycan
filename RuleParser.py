@@ -52,7 +52,8 @@ def read_compartment_file(filename):
 
 
 def read_compartment_composition_file(filename, compartments, enzymes):
-    '''compartment composition: specifies which compartment has which enzyme, thereby activating appropriate rules'''
+    '''compartment composition: specifies which compartment has which enzyme, thereby activating appropriate rules;
+    The option 'enzymes' contains the keys of the dictionary of rules, which is the enzyme list '''
     f = open(filename)
     lines = f.readlines()
     composition = {}
@@ -83,8 +84,10 @@ def read_compartment_residence(filename, compartments):
 
 
 def run_reaction(root, enzymes, compartments, composition, residence ):
+    '''given the root node, enzyme rules, no. of compartments, composition in each compartment and residence time in each compartment,
+    run the reaction for these parameters'''
     for c in compartments:
-        for n in range(residence[c]):
+        for n in range(residence[c]):  ## no. of reactions = residence time
             e = np.random.choice(composition[c])
             n1 = np.random.choice(list(enzymes[e].keys()))
             poss_rxn = enzymes[e][n1]
@@ -169,7 +172,7 @@ if __name__ == "__main__":
         freq = {}
         for j in range(chunks):
             root = TreeNode('Glc')
-            run_reaction(root,enz,compartments,compositions,residence)
+            run_reaction(root,enz,compartments,compositions,residence)  ## inputs to the code, see above
             name = '%s' % root
             if name not in freq:
                 freq[name] = 0
