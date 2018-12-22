@@ -47,7 +47,7 @@ class TreeNode:
     def has_right_child(self):         # check if the selected node has right child node
         return self.__rightChild is not None
 
-    def __str__(self):                # check if the selected node has left & right children; if yes, return the child nodes
+    def __str__(self):                # check if the selected node has left & right children; if yes, return the child node(s)
         repStr = ''
         if self.__leftChild is not None:
             repStr = '(%s)' % self.__leftChild
@@ -67,13 +67,14 @@ class TreeNode:
         return res
 
 
-def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):  # strategy of attaching child nodes to parent node
+def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):  # strategy of attaching child nodes 'newnode' to parent node 'basenode'  
     assert isinstance(root, TreeNode)      # this checks that the specified root & intermediate nodes are present in the tree
-    assert strategy in ['random', 'greedy']
+    assert strategy in ['random', 'greedy']  # strategy of attachment; random: attach to a random subset of the specified nodes;
+    # greedy: attach to any one of the multiple occurrences of a specified node 
     assert attach_to in ['left', 'right', 'any']
-    hits = root.search(basenode)
+    hits = root.search(basenode)  # check if the basenode is already present in tree, for further attachment to proceed
 
-    if len(hits) > 0:
+    if len(hits) > 0:   ## this section attaches childnode to parent node if empty slots are available
         filtered = []
         for h in hits:
             if attach_to == 'left' and not h.has_left_child():
@@ -82,7 +83,7 @@ def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'
                 filtered.append(h)
             elif attach_to == 'any' and (not h.has_right_child() or not h.has_right_child()):
                 filtered.append(h)
-        if len(filtered) > 0:
+        if len(filtered) > 0:  ## stop after 1st attachment for greedy; else try further attachment
             if strategy == 'greedy':
                 idx = 0
             else:
@@ -124,6 +125,6 @@ if __name__ == "__main__" :
          if tree not in freq:
              freq[tree] = 0
          freq[tree] = freq[tree] + 1
-     print( len(freq) )
+     print( len(freq) )     ## check the freq of occurrence of the different trees
 '''
 
