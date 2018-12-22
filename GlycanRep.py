@@ -11,7 +11,8 @@ Define simulation protocol
 import pandas as pd
 import numpy as np
 
-__all__ = ['Node', 'TreeNode', 'attach_new_node']  # each treeNode can either have a node (i.e, child) or be null (having no child)
+__all__ = ['Node', 'TreeNode', 'attach_new_node']  
+# each treeNode can either have a node (i.e, child) or be null (having no child)
 
 
 class Node:      ## WHAT IS THIS CLASS DOING ?
@@ -30,32 +31,40 @@ class Node:      ## WHAT IS THIS CLASS DOING ?
 
 
 class TreeNode:
-    def __init__(self, rootName):        # defining the name of each node
+    def __init__(self, rootName):       
+        # defining the name of each node
         self.__node = Node(rootName)
         self.__leftChild = None
         self.__rightChild = None
 
-    def add_left_child(self, nodeName):  # adding left child node
+    def add_left_child(self, nodeName): 
+        # adding left child node
         if self.__leftChild is None:
             self.__leftChild = TreeNode(nodeName)
 
-    def add_right_child(self, nodeName):  # adding right child node
+    def add_right_child(self, nodeName):  
+        # adding right child node
         if self.__rightChild is None:
             self.__rightChild = TreeNode(nodeName)
 
-    def get_left_child(self):          # getting the identity of left child node
+    def get_left_child(self):          
+        # getting the identity of left child node
         return self.__leftChild
 
-    def get_right_child(self):         # getting the identity of right child node
+    def get_right_child(self):         
+        # getting the identity of right child node
         return self.__rightChild
 
-    def has_left_child(self):          # check if the selected node has left child node
+    def has_left_child(self):         
+        # check if the selected node has left child node
         return self.__leftChild is not None
 
-    def has_right_child(self):         # check if the selected node has right child node
+    def has_right_child(self):        
+        # check if the selected node has right child node
         return self.__rightChild is not None
 
-    def __str__(self):                # check if the selected node has left & right children; if yes, return the child node(s)
+    def __str__(self):               
+        # check if the selected node has left & right children; if yes, return the child node(s)
         repStr = ''
         if self.__leftChild is not None:
             repStr = '(%s)' % self.__leftChild
@@ -64,7 +73,8 @@ class TreeNode:
             repStr = repStr + '(%s)' % self.__rightChild
         return repStr
 
-    def search(self, nodeName):       # if a specified node is present in the tree, return the nodes & its children
+    def search(self, nodeName):      
+        # if a specified node is present in the tree, return the nodes & its children
         res = []
         if self.__node == Node(nodeName):
             res.append(self)
@@ -75,12 +85,16 @@ class TreeNode:
         return res
 
 
-def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):  # strategy of attaching child nodes 'newnode' to parent node 'basenode'  
-    assert isinstance(root, TreeNode)      # this checks that the specified root & intermediate nodes are present in the tree
-    assert strategy in ['random', 'greedy']  # strategy of attachment; random: attach to a random subset of the specified nodes;
+def attach_new_node( root, basenode, newnode, attach_to='any', strategy='random'):  
+    # strategy of attaching child nodes 'newnode' to parent node 'basenode'  
+    assert isinstance(root, TreeNode)      
+    # this checks that the specified root & intermediate nodes are present in the tree
+    assert strategy in ['random', 'greedy']  
+    # strategy of attachment; random: attach to a random subset of the specified nodes;
     # greedy: attach to any one of the multiple occurrences of a specified node 
     assert attach_to in ['left', 'right', 'any']
-    hits = root.search(basenode)  # check if the basenode is already present in tree, for further attachment to proceed
+    hits = root.search(basenode)  
+    # check if the basenode is already present in tree, for further attachment to proceed
 
     if len(hits) > 0:   ## this section attaches childnode to parent node if empty slots are available
         filtered = []
