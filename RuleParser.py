@@ -1,5 +1,8 @@
 '''
 
+inputs: node list; enzyme + glycan rule set; compartment list (# compartments); 
+        compartment composition (which enzyme in which compartment) 
+
 '''
 
 import json
@@ -18,15 +21,17 @@ def read_node_file(filename):
 
 
 def read_enzyme_file(filename, node_list):
+    '''specifies the rule set of enzyme-catalysed bonding of 2 sugars, & the attachment position (left, right, any).
+    The rules are read from a structured file into a dictionary'''
     x = pd.read_csv(filename, header=None)
-    assert x.shape[1] == 4
+    assert x.shape[1] == 4  # check that all 4 columns are present
     rules = {}
     for i in range(x.shape[0]):
         enz = x.loc[i,0]
         n1 = x.loc[i,1]
         n2 = x.loc[i,2]
         r  = x.loc[i,3]
-        assert n1 in node_list
+        assert n1 in node_list  ## validate the inputs by cross-checking with other files
         assert n2 in node_list
         assert r  in ('l', 'r', 'a')
         if enz not in rules:
@@ -38,6 +43,7 @@ def read_enzyme_file(filename, node_list):
 
 
 def read_compartment_file(filename):
+    '''list of compartments'''
     x = pd.read_csv(filename, header=None)
     compartments = []
     for i in range(x.shape[0]):
@@ -46,6 +52,7 @@ def read_compartment_file(filename):
 
 
 def read_compartment_composition_file(filename, compartments, enzymes):
+    '''compartment composition: specifies which compartment has which enzyme, thereby activating appropriate rules'''
     f = open(filename)
     lines = f.readlines()
     composition = {}
@@ -62,6 +69,7 @@ def read_compartment_composition_file(filename, compartments, enzymes):
 
 
 def read_compartment_residence(filename, compartments):
+    '''save residence time in compartments as a dictionary; higher time implies higher saturation, i.e. more sites have reacted'''
     x = pd.read_csv(filename, header=None)
     assert x.shape[1] == 2
     assert x.shape[0] == len(compartments)
