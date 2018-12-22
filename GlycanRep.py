@@ -5,7 +5,7 @@ Define class to describe node
 Define class to describe: adding child node, get identity of child node, check if node has children.
 Define function for attachment strategy
 Define rule set
-Define simulaion protocol
+Define simulation protocol
 '''
 
 import pandas as pd
