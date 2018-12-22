@@ -34,7 +34,7 @@ def read_enzyme_file(filename, node_list):
         assert n1 in node_list  ## validate the inputs by cross-checking with other files
         assert n2 in node_list
         assert r  in ('l', 'r', 'a')
-        if enz not in rules:
+        if enz not in rules:  ## aff the enzymes & sugar nodes to a  dictionary
             rules[enz] = {}
         if n1 not in rules[enz]:
             rules[enz][n1] = []
@@ -88,10 +88,10 @@ def run_reaction(root, enzymes, compartments, composition, residence ):
     run the reaction for these parameters'''
     for c in compartments:
         for n in range(residence[c]):  ## no. of reactions = residence time
-            e = np.random.choice(composition[c])
-            n1 = np.random.choice(list(enzymes[e].keys()))
+            e = np.random.choice(composition[c])  ## randomly select one of the compartment compositions
+            n1 = np.random.choice(list(enzymes[e].keys()))  ## randomly pick one of the enzymes in the selected compartment composition
             poss_rxn = enzymes[e][n1]
-            np.random.shuffle(poss_rxn)
+            np.random.shuffle(poss_rxn)  ## randomly order the reactions for the selected enzyme
             for i in range(len(poss_rxn)):
                 (n2, r) = poss_rxn[i]
                 if r == 'a':
@@ -100,7 +100,7 @@ def run_reaction(root, enzymes, compartments, composition, residence ):
                     r = 'right'
                 else:
                     r = 'left'
-                succ = attach_new_node(root,n1,n2,attach_to=r)
+                succ = attach_new_node(root,n1,n2,attach_to=r)  ## do the attachment using the glycan representation code
                 if succ is True:
                     break
 
@@ -110,11 +110,11 @@ def freq_to_distrib( data ):
     n = sum(data.values())
     distrib = {}
     for k,v in data.items():
-        distrib[k] = v * 1.0/n
+        distrib[k] = v * 1.0/n  # convert the frequency values to fraction
     return distrib
 
 
-def append_freq( base, newfreq):
+def append_freq( base, newfreq):  ## adding the frequencies of individual runs (newfreq) to a master dictionary (base) ?
     assert isinstance(base, dict)
     assert isinstance(newfreq, dict)
     for k,v in newfreq.items():
@@ -138,11 +138,11 @@ def composition_distance(src, tgt):
             v1 = src_dist[k]
         if k in tgt_dist:
             v2 = src_dist[k]
-        d += abs(v1 - v2)
+        d += abs(v1 - v2)  ## checking the distance between the 2 set sof trees
     return d
 
 
-def topn( data , n=5):
+def topn( data , n=5):  ## print the top 5 highly occurring trees
     assert isinstance(data, dict)
     sorted_x = sorted(data.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_x[:n]
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     compartments = read_compartment_file(cmp_file)
     compositions = read_compartment_composition_file(comp_file, compartments, enz.keys())
     residence = read_compartment_residence(resi_file, compartments)
-    nop = 10000
+    nop = 10000   ### no. of simulations (?)
 
     basefreq, freq = {}, {}
     chunks = 5000
@@ -172,13 +172,13 @@ if __name__ == "__main__":
         freq = {}
         for j in range(chunks):
             root = TreeNode('Glc')
-            run_reaction(root,enz,compartments,compositions,residence)  ## inputs to the code, see above
-            name = '%s' % root
-            if name not in freq:
+            run_reaction(root,enz,compartments,compositions,residence)  ## runs the reaction; see above for inputs to the code
+            name = '%s' % root  ## what is this step doing ?? is this the full tree ?
+            if name not in freq:  ## calculate the freq of occurrence of different trees
                 freq[name] = 0
             freq[name] = freq[name] + 1
         basefreq = append_freq(basefreq, freq)
-        if i > 1:
+        if i > 1:  ## check if there is significant difference in the distribution of different trees in subsequent runs
             d = composition_distance(basefreq, freq)
             runlength = runlength + 1 if d < eps else 0
         if runlength > cutofflength:
