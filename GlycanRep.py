@@ -1,5 +1,13 @@
-''' code for representing the glycan structure, given the input nodes (i.e. the individual sugars). 
-Each node can have at most 2 branches (left child & right child)'''
+''' 
+code for representing the glycan structure, given the input nodes (i.e. the individual sugars). 
+Each node can have at most 2 branches (left child & right child)
+Define class to describe node
+Define class to describe: adding child node, get identity of child node, check if node has children.
+Define function for attachment strategy
+Define rule set
+Define simulaion protocol
+'''
+
 import pandas as pd
 import numpy as np
 
